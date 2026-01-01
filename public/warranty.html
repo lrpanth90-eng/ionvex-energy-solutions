@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ionvex Energy | Warranty Check</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="card">
+      <h2>Warranty Check</h2>
+      <p>Enter your battery serial number</p>
+
+      <input id="serialInput" placeholder="Battery Serial Number">
+
+      <button id="checkBtn">Check Warranty</button>
+
+      <div id="result" class="msg"></div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/firebase/app.js"></script>
+  <script type="module" src="../js/warranty/checkWarranty.js"></script>
+</body>
+</html>
