@@ -2,34 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Dealer | Activate Warranty</title>
+  <title>Activate Warranty | Dealer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <script type="module" src="/js/firebase/app.js"></script>
 </head>
 <body>
 
-<h2>Dealer Warranty Activation</h2>
+<h2>Activate Battery Warranty</h2>
 
-<input id="serial" placeholder="Battery Serial Number" />
-<br><br>
+<div class="form">
+  <input id="serial" placeholder="Battery Serial Number">
+  <input id="customerName" placeholder="Customer Name">
+  <input id="customerPhone" placeholder="Customer Phone">
+  
+  <select id="vehicleType">
+    <option value="">Select Vehicle Type</option>
+    <option value="2W">2 Wheeler</option>
+    <option value="3W">3 Wheeler</option>
+    <option value="4W">4 Wheeler</option>
+  </select>
 
-<input id="customerName" placeholder="Customer Name" />
-<br><br>
+  <button id="activateBtn" class="btn primary">Activate Warranty</button>
+  <p id="msg"></p>
+</div>
 
-<input id="customerPhone" placeholder="Customer Phone" />
-<br><br>
-
-<select id="vehicleType">
-  <option value="">Select Vehicle Type</option>
-  <option value="2W">2 Wheeler</option>
-  <option value="3W">3 Wheeler</option>
-  <option value="4W">4 Wheeler</option>
-</select>
-<br><br>
-
-<button id="activateBtn">Activate Warranty</button>
-
-<p id="status"></p>
-
-<script type="module" src="/js/warranty/activateWarranty.js"></script>
+<script type="module" src="/js/dealer/activateWarranty.js"></script>
 </body>
 </html>
