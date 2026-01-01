@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Warranty Check | Ionvex Energy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body style="font-family: Arial; padding: 20px;">
+
+  <h2>Battery Warranty Check</h2>
+
+  <input
+    type="text"
+    id="serialInput"
+    placeholder="Enter Battery Serial Number"
+    style="padding:10px;width:300px;"
+  />
+
+  <br><br>
+
+  <button onclick="checkWarranty()" style="padding:10px 20px;">
+    Check Warranty
+  </button>
+
+  <pre id="result" style="margin-top:20px;"></pre>
+
+  <!-- Firebase -->
+  <script type="module" src="../../js/firebase/app.js"></script>
+
+  <!-- Warranty Logic -->
+  <script type="module">
+    import { db } from "../../js/firebase/app.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    window.checkWarranty = async function () {
+      const serial = document.getElementById("serialInput").value.trim();
+      const result = document.getElementById("result");
+
+      result.textContent = "Checking...";
+
+      if (!serial) {
+        result.textContent = "❌ Serial number required";
+        return;
+      }
+
+      try {
+        const ref = doc(db, "warranties", serial);
+        const snap = await getDoc(ref);
+
+        if (!snap.exists()) {
+          result.textContent = "❌ Warranty NOT FOUND";
+          return;
+        }
+
+        const data = snap.data();
+
+        result.textContent =
+          "✅ WARRANTY FOUND\n\n" +
+          "Serial: " + serial + "\n" +
+          "Battery Type: " + data.batteryType + "\n" +
+          "Status: " + data.status + "\n" +
+          "Expiry: " + data.expiryDate.toDate();
+
+      } catch (err) {
+        result.textContent = "🔥 ERROR:\n" + err.message;
+        console.error(err);
+      }
+    };
+  </script>
+
+</body>
+</html>
