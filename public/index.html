@@ -2,103 +2,79 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Ionvex Energy | EV Lithium Batteries</title>
+  <title>Ionvex Energy | Warranty Check</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="../css/main.css">
 
-  <!-- Firebase -->
-  <script type="module" src="/js/firebase/app.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg,#020617,#0f172a);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background:#020617;
+      padding:30px;
+      width:100%;
+      max-width:420px;
+      border-radius:12px;
+      box-shadow:0 0 25px rgba(0,0,0,0.7);
+      text-align:center;
+    }
+    input {
+      width:100%;
+      padding:14px;
+      font-size:16px;
+      border-radius:8px;
+      border:none;
+      margin-top:15px;
+    }
+    button {
+      width:100%;
+      padding:14px;
+      margin-top:15px;
+      background:#22c55e;
+      border:none;
+      border-radius:8px;
+      font-size:16px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+    button:hover {
+      background:#16a34a;
+    }
+    .result {
+      margin-top:20px;
+      padding:15px;
+      border-radius:8px;
+      display:none;
+      background:#0f172a;
+      text-align:left;
+    }
+    .success { border-left:4px solid #22c55e; }
+    .error { border-left:4px solid #ef4444; }
+  </style>
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
-<header class="header">
-  <div class="container header-flex">
-    <img src="/assets/images/logo.png" class="logo" alt="Ionvex Energy">
-
-    <nav>
-      <a href="/">Home</a>
-      <a href="/products.html">Products</a>
-      <a href="/warranty.html">Warranty</a>
-      <a href="/login.html" class="btn">Dealer Login</a>
-    </nav>
-  </div>
-</header>
-
-<!-- ================= HERO ================= -->
-<section class="hero">
-  <div class="container">
-    <h1>Powering India’s Electric Future</h1>
-    <p>Advanced Lithium Batteries for 2W, 3W & 4W Electric Vehicles</p>
-
-    <div class="hero-btns">
-      <a href="/products.html" class="btn primary">View Products</a>
-      <a href="/warranty.html" class="btn secondary">Check Warranty</a>
-    </div>
-  </div>
-</section>
-
-<!-- ================= PRODUCT CATEGORIES ================= -->
-<section class="categories container">
-  <h2>Our Battery Solutions</h2>
-
-  <div class="grid">
-    <div class="card">
-      <img src="/assets/images/batteries/2w/48v-100ah.png">
-      <h3>2 Wheeler Batteries</h3>
-      <p>Lightweight • High Range • 3 Years Warranty</p>
-    </div>
-
-    <div class="card">
-      <img src="/assets/images/batteries/3w/48v-150ah.png">
-      <h3>3 Wheeler Batteries</h3>
-      <p>High Cycle Life • Commercial Grade</p>
-    </div>
-
-    <div class="card">
-      <img src="/assets/images/batteries/4w/72v-200ah.png">
-      <h3>4 Wheeler Batteries</h3>
-      <p>Smart BMS • Fleet Ready</p>
-    </div>
-  </div>
-</section>
-
-<!-- ================= FEATURES ================= -->
-<section class="features">
-  <div class="container grid-4">
-    <div>🔋 Smart BMS</div>
-    <div>📱 Bluetooth Monitoring</div>
-    <div>⚡ Fast Charging</div>
-    <div>🛡️ 3 Year Warranty</div>
-  </div>
-</section>
-
-<!-- ================= QUICK WARRANTY CHECK ================= -->
-<section class="warranty container">
-  <h2>Quick Warranty Check</h2>
+<div class="card">
+  <h2>Ionvex Energy</h2>
+  <p>Battery Warranty Check</p>
 
   <input id="serialInput" placeholder="Enter Battery Serial Number">
-  <button id="checkBtn" class="btn primary">Check Warranty</button>
 
-  <div id="warrantyResult" class="result-box"></div>
-</section>
+  <button onclick="checkWarranty()">Check Warranty</button>
 
-<!-- ================= DEALER CTA ================= -->
-<section class="dealer-cta">
-  <h2>Become an Authorized Ionvex Dealer</h2>
-  <a href="/login.html" class="btn primary">Dealer Login</a>
-</section>
+  <div id="resultBox" class="result"></div>
+</div>
 
-<!-- ================= FOOTER ================= -->
-<footer>
-  <p>© 2026 Ionvex Energy | Made in India 🇮🇳</p>
-</footer>
-
-<!-- JS -->
-<script type="module" src="/js/home/warrantyQuickCheck.js"></script>
+<script type="module" src="../js/warranty/checkWarranty.js"></script>
 
 </body>
-  </html>
+</html>
