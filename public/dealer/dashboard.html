@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dealer Dashboard | Ionvex Energy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <script type="module" src="/js/firebase/app.js"></script>
+</head>
+<body>
+
+<header class="header">
+  <h2>Dealer Dashboard</h2>
+  <button id="logoutBtn" class="btn">Logout</button>
+</header>
+
+<section class="container">
+  <div class="card">
+    <h3>Activate Battery Warranty</h3>
+    <p>Activate warranty for customer battery</p>
+    <a href="/dealer/activate-warranty.html" class="btn primary">
+      Activate Warranty
+    </a>
+  </div>
+
+  <div class="card">
+    <h3>My Activated Batteries</h3>
+    <p>Total activated batteries by you</p>
+    <h1 id="totalCount">0</h1>
+  </div>
+</section>
+
+<script type="module" src="/js/dealer/dashboard.js"></script>
+</body>
+</html>
