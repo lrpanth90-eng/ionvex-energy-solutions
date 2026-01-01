@@ -1,14 +1,17 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "XXXX",
-  appId: "XXXX"
+  apiKey: "AIzaSyDvV77_17S233OHTDxxOHaEIeruo_IP-u8",
+  authDomain: "ionvex-energy.firebaseapp.com",
+  projectId: "ionvex-energy",
+  storageBucket: "ionvex-energy.appspot.com",
+  messagingSenderId: "48652442204",
+  appId: "1:48652442204:web:f23a353804282630c1e499"
 };
 
 const app = initializeApp(firebaseConfig);
-window.db = getFirestore(app);
+
+export const db = getFirestore(app);
+export const auth = getAuth(app);
