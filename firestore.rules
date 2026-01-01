@@ -3,8 +3,18 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     match /batteries/{serial} {
+
+      // 🔓 Public warranty check (read-only)
       allow read: if true;
-      allow write: if true; // TEMP (Phase 1 Step 3 में fix)
+
+      // 👑 Admin full access
+      allow create, update, delete: if request.auth != null
+        && request.auth.token.role == "admin";
+
+      // 🧑‍🔧 Dealer can activate only his own battery
+      allow update: if request.auth != null
+        && request.auth.token.role == "dealer"
+        && request.resource.data.activatedBy == request.auth.uid;
     }
   }
 }
