@@ -1,33 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Activate Warranty | Ionvex Energy</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="stylesheet" href="/css/dealer.css" />
+  <meta charset="UTF-8">
+  <title>Dealer | Activate Warranty</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-  <div class="dealer-box">
-    <h2>Activate Battery Warranty</h2>
-    <p>Dealer Panel – Ionvex Energy</p>
+<h2>Dealer Warranty Activation</h2>
 
-    <input id="serialNo" placeholder="Battery Serial Number" />
-    <input id="customerName" placeholder="Customer Name" />
-    <input id="customerPhone" placeholder="Customer Phone" />
-    <input id="vehicleType" placeholder="Vehicle Type (2W / 3W / 4W)" />
+<input id="serial" placeholder="Battery Serial Number" />
+<br><br>
 
-    <button id="activateBtn">Activate Warranty</button>
+<input id="customerName" placeholder="Customer Name" />
+<br><br>
 
-    <div id="msg" class="msg"></div>
-  </div>
+<input id="customerPhone" placeholder="Customer Phone" />
+<br><br>
 
-  <!-- Firebase init -->
-  <script type="module" src="/js/firebase/app.js"></script>
+<select id="vehicleType">
+  <option value="">Select Vehicle Type</option>
+  <option value="2W">2 Wheeler</option>
+  <option value="3W">3 Wheeler</option>
+  <option value="4W">4 Wheeler</option>
+</select>
+<br><br>
 
-  <!-- Activation logic -->
-  <script type="module" src="/js/warranty/activateWarranty.js"></script>
+<button id="activateBtn">Activate Warranty</button>
 
+<p id="status"></p>
+
+<script type="module" src="/js/warranty/activateWarranty.js"></script>
 </body>
 </html>
