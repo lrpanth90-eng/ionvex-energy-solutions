@@ -2,117 +2,97 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    /* ================= COMMON FUNCTIONS ================= */
+    /* ======================
+       HELPER FUNCTIONS
+    ====================== */
     function isSignedIn() {
       return request.auth != null;
     }
 
     function userDoc() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
     }
 
     function isAdmin() {
-      return isSignedIn() && userDoc().role == "ADMIN";
+      return isSignedIn() && userDoc().data.role == "ADMIN";
     }
 
     function isDealer() {
-      return isSignedIn() && userDoc().role == "DEALER";
+      return isSignedIn() && userDoc().data.role == "DEALER"
+             && userDoc().data.status == "APPROVED";
     }
 
-    /* ================= USERS ================= */
+    /* ======================
+       USERS
+    ====================== */
     match /users/{uid} {
-
-      // User apna data dekh sakta hai
       allow read: if isSignedIn() && request.auth.uid == uid;
-
-      // User first time apna profile create kar sakta hai
-      allow create: if isSignedIn() && request.auth.uid == uid;
-
-      // Sirf admin kisi ka role change kare
-      allow update: if isAdmin();
-
-      allow delete: if false;
+      allow write: if isAdmin();
     }
 
-    /* ================= DEALER REGISTRATION REQUEST ================= */
-    match /dealerRequests/{requestId} {
-
-      // Dealer request submit kare
-      allow create: if isSignedIn()
-        && request.resource.data.uid == request.auth.uid
-        && request.resource.data.status == "PENDING";
-
-      // Dealer apni request dekh sake
-      allow read: if isSignedIn()
-        && resource.data.uid == request.auth.uid;
-
-      // Admin sab dekh sakta hai
-      allow read: if isAdmin();
-
-      // Admin approve / reject kare
+    /* ======================
+       DEALER REGISTRATION
+    ====================== */
+    match /dealers/{dealerId} {
+      allow create: if isSignedIn(); // registration request
+      allow read: if isAdmin() || (isSignedIn() && request.auth.uid == dealerId);
       allow update: if isAdmin();
-
       allow delete: if isAdmin();
     }
 
-    /* ================= BATTERIES / SERIALS ================= */
+    /* ======================
+       PRODUCTS (CMS)
+    ====================== */
+    match /products/{productId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    /* ======================
+       BATTERIES / SERIALS
+    ====================== */
     match /batteries/{serial} {
 
-      // 🌍 Public warranty check
+      // 🔓 Public warranty check
       allow read: if true;
 
-      // 🏭 Admin bulk upload / edit / delete
+      // 👑 Admin full control
       allow create, update, delete: if isAdmin();
 
-      // 🔧 Dealer warranty activate kare (sirf ek baar)
+      // 🧑‍🔧 Dealer warranty activation (ONCE)
       allow update: if isDealer()
         && resource.data.status != "ACTIVE"
         && request.resource.data.status == "ACTIVE"
-        && request.resource.data.activatedBy == request.auth.uid
-        && request.resource.data.activationDate is timestamp;
+        && request.resource.data.activatedBy == request.auth.uid;
     }
 
-    /* ================= WARRANTY CLAIMS ================= */
-    match /warrantyClaims/{claimId} {
-
-      // Dealer claim submit kare
-      allow create: if isDealer()
-        && request.resource.data.dealerId == request.auth.uid
-        && request.resource.data.status == "SUBMITTED";
-
-      // Dealer apne claims dekhe
-      allow read: if isDealer()
-        && resource.data.dealerId == request.auth.uid;
-
-      // Admin sab claims dekhe
-      allow read: if isAdmin();
-
-      // Admin approve / reject / update kare
-      allow update: if isAdmin();
-
-      allow delete: if false;
+    /* ======================
+       WARRANTY CLAIMS
+    ====================== */
+    match /claims/{claimId} {
+      allow create: if isDealer();
+      allow read: if isAdmin() || (isDealer() && resource.data.dealerId == request.auth.uid);
+      allow update, delete: if isAdmin();
     }
 
-    /* ================= PRODUCTS ================= */
-    match /products/{productId} {
-
-      // Public products dekh sake
+    /* ======================
+       CMS SETTINGS
+    ====================== */
+    match /cms/{docId} {
       allow read: if true;
-
-      // Admin product manage kare
-      allow create, update, delete: if isAdmin();
+      allow write: if isAdmin();
     }
 
-    /* ================= AUDIT LOGS ================= */
+    /* ======================
+       LOGS & REPORTS
+    ====================== */
     match /logs/{logId} {
-
-      // Sirf admin logs dekh sake
-      allow read: if isAdmin();
-
-      // System / admin logs likhe
-      allow create: if isAdmin();
-
-      allow update, delete: if false;
+      allow read, write: if isAdmin();
     }
+
+    match /reports/{reportId} {
+      allow read, write: if isAdmin();
+    }
+
   }
 }
