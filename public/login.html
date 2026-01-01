@@ -1,25 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Dealer Login | Ionvex Energy</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="stylesheet" href="/css/main.css">
+  <title>Dealer Login</title>
   <script type="module" src="/js/firebase/app.js"></script>
 </head>
 <body>
 
-<div class="login-container">
-  <h2>Dealer / Admin Login</h2>
+<h2>Dealer / Admin Login</h2>
 
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Password">
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
 
-  <button id="loginBtn" class="btn primary">Login</button>
-
-  <p id="error" class="error"></p>
-</div>
+<button id="loginBtn">Login</button>
+<p id="msg"></p>
 
 <script type="module" src="/js/auth/login.js"></script>
 </body>
