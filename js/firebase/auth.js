@@ -1,9 +1,7 @@
-// ionvex-energy-solutions/js/firebase/auth.js
-
 import { auth, db } from "./app.js";
 import {
-  onAuthStateChanged,
-  signOut
+  signInWithEmailAndPassword,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 import {
@@ -11,49 +9,41 @@ import {
   getDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-/* =====================================================
-   🔐 AUTH & ROLE GUARD
-===================================================== */
+// LOGIN FUNCTION
+window.login = async () => {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const msg = document.getElementById("msg");
 
-export function protectPage(requiredRole) {
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      window.location.href = "/login.html";
-      return;
-    }
+  try {
+    msg.innerText = "Logging in...";
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (e) {
+    msg.innerText = "❌ Invalid login";
+  }
+};
 
-    try {
-      const userRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userRef);
+// ROLE CHECK + REDIRECT
+onAuthStateChanged(auth, async (user) => {
+  if (!user) return;
 
-      if (!userSnap.exists()) {
-        await signOut(auth);
-        window.location.href = "/login.html";
-        return;
-      }
+  const ref = doc(db, "users", user.uid);
+  const snap = await getDoc(ref);
 
-      const userData = userSnap.data();
+  if (!snap.exists()) {
+    alert("Role not assigned. Contact admin.");
+    return;
+  }
 
-      if (userData.role !== requiredRole) {
-        alert("❌ Unauthorized Access");
-        await signOut(auth);
-        window.location.href = "/login.html";
-        return;
-      }
+  const role = snap.data().role;
 
-      console.log("✅ Access granted:", userData.role);
-
-    } catch (error) {
-      console.error(error);
-      window.location.href = "/login.html";
-    }
-  });
-}
-
-/* =====================================================
-   🔓 LOGOUT
-===================================================== */
-export async function logout() {
-  await signOut(auth);
-  window.location.href = "/login.html";
-}
+  if (role === "ADMIN") {
+    window.location.href = "/admin/dashboard.html";
+  } 
+  else if (role === "DEALER") {
+    window.location.href = "/dealer/dashboard.html";
+  } 
+  else {
+    alert("Unauthorized role");
+  }
+});
