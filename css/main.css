@@ -114,3 +114,53 @@ footer {
   padding: 15px;
   background: #020617;
   }
+.page-title {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.filters {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.filters button {
+  margin: 5px;
+  padding: 10px 16px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  background: #1e293b;
+  color: white;
+}
+
+.filters button:hover {
+  background: #22c55e;
+  color: black;
+}
+
+.product-card {
+  background: #0f172a;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.product-card img {
+  width: 100%;
+  max-height: 180px;
+  object-fit: contain;
+}
+
+.product-card h3 {
+  margin: 10px 0 5px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #22c55e;
+  color: black;
+  border-radius: 12px;
+  font-size: 12px;
+}
