@@ -2,33 +2,36 @@ import { db } from "../firebase/app.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const btn = document.getElementById("checkBtn");
+const input = document.getElementById("serialInput");
+const result = document.getElementById("warrantyResult");
 
 btn.addEventListener("click", async () => {
-  const serial = document.getElementById("serialInput").value.trim();
-  const resultBox = document.getElementById("warrantyResult");
+  const serial = input.value.trim();
 
   if (!serial) {
-    resultBox.innerText = "Please enter serial number";
+    result.innerHTML = "❌ Serial number enter karo";
     return;
   }
+
+  result.innerHTML = "🔄 Checking...";
 
   try {
     const ref = doc(db, "batteries", serial);
     const snap = await getDoc(ref);
 
     if (!snap.exists()) {
-      resultBox.innerText = "❌ Battery not found";
+      result.innerHTML = "❌ Battery not found";
       return;
     }
 
     const data = snap.data();
-    resultBox.innerHTML = `
-      ✅ <b>${data.model}</b><br>
-      Warranty: ${data.warrantyStatus}<br>
-      Expiry: ${data.warrantyExpiry}
+    result.innerHTML = `
+      ✅ <b>Status:</b> ${data.status}<br>
+      🔋 <b>Vehicle:</b> ${data.vehicleType}<br>
+      📅 <b>Warranty Till:</b> ${data.warrantyExpiry}
     `;
   } catch (err) {
-    resultBox.innerText = "Error checking warranty";
+    result.innerHTML = "❌ Error checking warranty";
     console.error(err);
   }
 });
