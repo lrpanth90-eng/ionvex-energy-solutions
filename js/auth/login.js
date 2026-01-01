@@ -1,53 +1,42 @@
 import { auth, db } from "../firebase/app.js";
-import {
-  signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { signInWithEmailAndPassword } from
+  "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-import {
-  doc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { doc, getDoc } from
+  "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const loginBtn = document.getElementById("loginBtn");
-const errorBox = document.getElementById("error");
+const btn = document.getElementById("loginBtn");
+const msg = document.getElementById("msg");
 
-loginBtn.addEventListener("click", async () => {
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
-
-  if (!email || !password) {
-    errorBox.innerText = "Email aur password required";
-    return;
-  }
-
+btn.onclick = async () => {
   try {
-    // 🔐 Firebase Login
-    const cred = await signInWithEmailAndPassword(auth, email, password);
-    const uid = cred.user.uid;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-    // 👤 Get Role
-    const userRef = doc(db, "users", uid);
-    const userSnap = await getDoc(userRef);
+    const res = await signInWithEmailAndPassword(auth, email, password);
 
-    if (!userSnap.exists()) {
-      errorBox.innerText = "User role not assigned";
+    const uid = res.user.uid;
+
+    const userDoc = await getDoc(doc(db, "users", uid));
+
+    if (!userDoc.exists()) {
+      msg.innerText = "User role not found";
       return;
     }
 
-    const role = userSnap.data().role;
+    const role = userDoc.data().role;
 
-    // 🚀 Role based redirect
-    if (role === "dealer") {
-      window.location.href = "/dealer/dashboard.html";
-    } 
-    else if (role === "admin") {
+    if (role === "ADMIN") {
       window.location.href = "/admin/dashboard.html";
     } 
+    else if (role === "DEALER") {
+      window.location.href = "/dealer/dashboard.html";
+    } 
     else {
-      errorBox.innerText = "Invalid role";
+      msg.innerText = "Invalid role";
     }
 
-  } catch (err) {
-    errorBox.innerText = err.message;
+  } catch (e) {
+    msg.innerText = e.message;
   }
-});
+};
