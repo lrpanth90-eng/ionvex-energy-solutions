@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ionvex Energy | Products</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="container header-flex">
+    <img src="/assets/images/logo.png" class="logo">
+
+    <nav>
+      <a href="/">Home</a>
+      <a href="/products.html">Products</a>
+      <a href="/warranty.html">Warranty</a>
+      <a href="/login.html" class="btn">Dealer Login</a>
+    </nav>
+  </div>
+</header>
+
+<!-- PAGE TITLE -->
+<section class="page-title">
+  <h1>Our Lithium Battery Products</h1>
+  <p>Advanced EV Batteries for 2W, 3W & 4W Vehicles</p>
+</section>
+
+<!-- FILTER BUTTONS -->
+<section class="filters container">
+  <button onclick="filterProducts('all')">All</button>
+  <button onclick="filterProducts('2W')">2 Wheeler</button>
+  <button onclick="filterProducts('3W')">3 Wheeler</button>
+  <button onclick="filterProducts('4W')">4 Wheeler</button>
+</section>
+
+<!-- PRODUCT GRID -->
+<section class="container">
+  <div class="grid" id="productGrid">
+    <!-- JS se products load honge -->
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© Ionvex Energy | Made in India 🇮🇳</p>
+</footer>
+
+<script src="/js/products/products.js"></script>
+</body>
+</html>
