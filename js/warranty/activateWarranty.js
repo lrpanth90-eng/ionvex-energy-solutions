@@ -1,86 +1,68 @@
-import { db, auth } from "../firebase/app.js";
+import { auth, db } from "../firebase/app.js";
 import {
   doc,
   getDoc,
-  setDoc,
+  updateDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import {
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-const serialInput = document.getElementById("serialNo");
-const customerNameInput = document.getElementById("customerName");
-const customerPhoneInput = document.getElementById("customerPhone");
-const vehicleTypeInput = document.getElementById("vehicleType");
-const activateBtn = document.getElementById("activateBtn");
-const msg = document.getElementById("msg");
+const btn = document.getElementById("activateBtn");
+const statusBox = document.getElementById("status");
 
-let currentDealer = null;
-
-/* 🔐 Check dealer login */
-onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    window.location.href = "/login.html";
-  } else {
-    currentDealer = user;
-  }
-});
-
-/* 🚀 Activate Warranty */
-activateBtn.addEventListener("click", async () => {
-  msg.innerText = "";
-  msg.style.color = "white";
-
-  const serial = serialInput.value.trim();
-  const customerName = customerNameInput.value.trim();
-  const customerPhone = customerPhoneInput.value.trim();
-  const vehicleType = vehicleTypeInput.value.trim();
+btn.addEventListener("click", async () => {
+  const serial = document.getElementById("serial").value.trim();
+  const customerName = document.getElementById("customerName").value.trim();
+  const customerPhone = document.getElementById("customerPhone").value.trim();
+  const vehicleType = document.getElementById("vehicleType").value;
 
   if (!serial || !customerName || !customerPhone || !vehicleType) {
-    msg.innerText = "❌ All fields are required";
-    msg.style.color = "red";
+    statusBox.innerText = "❌ All fields required";
+    return;
+  }
+
+  const user = auth.currentUser;
+  if (!user) {
+    statusBox.innerText = "❌ Dealer not logged in";
     return;
   }
 
   try {
-    const batteryRef = doc(db, "batteries", serial);
-    const batterySnap = await getDoc(batteryRef);
+    statusBox.innerText = "Activating warranty...";
 
-    if (batterySnap.exists()) {
-      msg.innerText = "⚠️ Warranty already activated for this serial";
-      msg.style.color = "orange";
+    const ref = doc(db, "batteries", serial);
+    const snap = await getDoc(ref);
+
+    if (!snap.exists()) {
+      statusBox.innerText = "❌ Serial not found (Admin upload missing)";
       return;
     }
 
-    const warrantyYears = 3;
-    const expiryDate = new Date();
-    expiryDate.setFullYear(expiryDate.getFullYear() + warrantyYears);
+    const data = snap.data();
 
-    await setDoc(batteryRef, {
-      serialNumber: serial,
+    if (data.status === "ACTIVE") {
+      statusBox.innerText = "⚠️ Warranty already activated";
+      return;
+    }
+
+    // Warranty expiry calculation (3 years)
+    const now = new Date();
+    const expiry = new Date(now);
+    expiry.setFullYear(expiry.getFullYear() + 3);
+
+    await updateDoc(ref, {
       customerName,
       customerPhone,
       vehicleType,
-      activatedBy: currentDealer.uid,
-      dealerEmail: currentDealer.email,
+      activatedBy: user.uid,
       activatedAt: serverTimestamp(),
-      warrantyYears,
-      warrantyExpiry: expiryDate,
+      warrantyExpiry: expiry,
       status: "ACTIVE"
     });
 
-    msg.innerText = "✅ Warranty activated successfully";
-    msg.style.color = "#22c55e";
-
-    serialInput.value = "";
-    customerNameInput.value = "";
-    customerPhoneInput.value = "";
-    vehicleTypeInput.value = "";
+    statusBox.innerText = "✅ Warranty Activated Successfully";
 
   } catch (err) {
     console.error(err);
-    msg.innerText = "❌ Error activating warranty";
-    msg.style.color = "red";
+    statusBox.innerText = "❌ Error activating warranty";
   }
 });
