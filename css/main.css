@@ -203,3 +203,34 @@ footer {
   padding: 8px 0;
   border-bottom: 1px solid #1e293b;
 }
+
+.warranty-box {
+  max-width: 500px;
+  margin: 80px auto;
+  background: #0f172a;
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.warranty-box input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  border-radius: 6px;
+  border: none;
+}
+
+.warranty-box button {
+  margin-top: 15px;
+  padding: 12px;
+  width: 100%;
+  background: #22c55e;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#warrantyResult {
+  margin-top: 25px;
+}
