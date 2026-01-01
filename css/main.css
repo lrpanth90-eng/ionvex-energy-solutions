@@ -1,87 +1,116 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Roboto, Arial, sans-serif;
-}
-
 body {
-  background: linear-gradient(135deg, #020617, #020617);
-  min-height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #020617;
   color: #fff;
 }
 
-/* CENTER BOX */
+a { text-decoration: none; color: white; }
+
 .container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 90%;
+  max-width: 1100px;
+  margin: auto;
 }
 
-/* CARD */
+.header {
+  background: #020617;
+  border-bottom: 1px solid #1e293b;
+}
+
+.header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+}
+
+.logo { height: 45px; }
+
+nav a {
+  margin-left: 20px;
+}
+
+.btn {
+  padding: 10px 18px;
+  border-radius: 6px;
+}
+
+.primary {
+  background: #22c55e;
+  color: black;
+}
+
+.secondary {
+  border: 1px solid #22c55e;
+}
+
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  background: linear-gradient(to right, #020617, #020617);
+}
+
+.hero h1 {
+  font-size: 40px;
+}
+
+.categories h2,
+.warranty h2 {
+  text-align: center;
+  margin: 40px 0 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap: 20px;
+}
+
 .card {
   background: #0f172a;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.card img {
   width: 100%;
-  max-width: 420px;
-  padding: 30px;
-  border-radius: 14px;
-  box-shadow: 0 0 40px rgba(0,0,0,0.7);
+  max-height: 160px;
+  object-fit: contain;
 }
 
-.card h2 {
-  text-align: center;
-  margin-bottom: 8px;
-  font-size: 24px;
-  color: #22c55e;
+.features {
+  background: #0f172a;
+  padding: 40px 0;
 }
 
-.card p {
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
   text-align: center;
+}
+
+.warranty input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+}
+
+.result-box {
+  margin-top: 10px;
   font-size: 14px;
-  opacity: 0.8;
 }
 
-/* INPUT */
-input {
-  width: 100%;
-  padding: 14px;
-  margin-top: 15px;
-  border-radius: 8px;
-  border: none;
+.dealer-cta {
+  text-align: center;
+  padding: 50px 20px;
+  background: #22c55e;
+  color: black;
+}
+
+footer {
+  text-align: center;
+  padding: 15px;
   background: #020617;
-  color: white;
-  font-size: 15px;
-  outline: none;
-}
-
-input::placeholder {
-  color: #94a3b8;
-}
-
-/* BUTTON */
-button {
-  width: 100%;
-  padding: 14px;
-  margin-top: 18px;
-  border-radius: 8px;
-  border: none;
-  font-size: 16px;
-  font-weight: 600;
-  background: linear-gradient(90deg, #22c55e, #16a34a);
-  color: #020617;
-  cursor: pointer;
-}
-
-button:hover {
-  opacity: 0.9;
-}
-
-/* MESSAGE */
-.msg {
-  margin-top: 15px;
-  text-align: center;
-  font-size: 14px;
-}
-.success { color: #22c55e; }
-.error { color: #ef4444; }
+  }
