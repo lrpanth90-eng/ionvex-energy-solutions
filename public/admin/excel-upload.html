@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin | Excel Bulk Upload</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<h2>Ionvex Energy – Bulk Battery Serial Upload</h2>
+
+<input type="file" id="excelFile" accept=".xlsx,.xls" />
+<br><br>
+<button id="uploadBtn">Upload Excel</button>
+
+<p id="status"></p>
+
+<!-- XLSX Library -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+<!-- REAL JS -->
+<script type="module" src="/js/admin/excelUpload.js"></script>
+
+</body>
+</html>
