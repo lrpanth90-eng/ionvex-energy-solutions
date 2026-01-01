@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Activate Warranty | Ionvex Energy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="/css/dealer.css" />
+</head>
+<body>
+
+  <div class="dealer-box">
+    <h2>Activate Battery Warranty</h2>
+    <p>Dealer Panel – Ionvex Energy</p>
+
+    <input id="serialNo" placeholder="Battery Serial Number" />
+    <input id="customerName" placeholder="Customer Name" />
+    <input id="customerPhone" placeholder="Customer Phone" />
+    <input id="vehicleType" placeholder="Vehicle Type (2W / 3W / 4W)" />
+
+    <button id="activateBtn">Activate Warranty</button>
+
+    <div id="msg" class="msg"></div>
+  </div>
+
+  <!-- Firebase init -->
+  <script type="module" src="/js/firebase/app.js"></script>
+
+  <!-- Activation logic -->
+  <script type="module" src="/js/warranty/activateWarranty.js"></script>
+
+</body>
+</html>
