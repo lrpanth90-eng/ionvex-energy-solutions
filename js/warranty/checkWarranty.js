@@ -1,50 +1,49 @@
-import { db } from "../firebase/app.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const btn = document.getElementById("checkBtn");
-const resultBox = document.getElementById("result");
+window.checkWarranty = async function () {
 
-btn.addEventListener("click", async () => {
   const serial = document.getElementById("serialInput").value.trim();
+  const resultDiv = document.getElementById("result");
 
   if (!serial) {
-    resultBox.innerHTML = "<span class='error'>Please enter serial number</span>";
+    resultDiv.innerHTML = "<p>Please enter serial number</p>";
     return;
   }
 
-  resultBox.innerHTML = "Checking...";
-
   try {
-    const ref = doc(db, "warranties", serial);
+    const ref = doc(db, "batteries", serial);
     const snap = await getDoc(ref);
 
     if (!snap.exists()) {
-      resultBox.innerHTML = "<span class='error'>Invalid Serial Number</span>";
+      resultDiv.innerHTML = "<p style='color:red'>Invalid Serial Number</p>";
       return;
     }
 
     const data = snap.data();
-    const expiry = data.expiryDate.toDate();
     const today = new Date();
+    const activation = data.activationDate.toDate();
+    const warrantyYears = data.warrantyYears;
 
-    if (today <= expiry) {
-      resultBox.innerHTML = `
-        <span class="success">
-          ✅ Warranty Active <br>
-          Expires on: ${expiry.toDateString()}
+    const expiry = new Date(activation);
+    expiry.setFullYear(expiry.getFullYear() + warrantyYears);
+
+    const status = today <= expiry ? "ACTIVE" : "EXPIRED";
+
+    resultDiv.innerHTML = `
+      <h3>Battery Details</h3>
+      <p><b>Model:</b> ${data.model}</p>
+      <p><b>Vehicle:</b> ${data.vehicleType}</p>
+      <p><b>Activated:</b> ${activation.toDateString()}</p>
+      <p><b>Expiry:</b> ${expiry.toDateString()}</p>
+      <p><b>Status:</b>
+        <span style="color:${status==="ACTIVE"?"#22c55e":"red"}">
+          ${status}
         </span>
-      `;
-    } else {
-      resultBox.innerHTML = `
-        <span class="error">
-          ❌ Warranty Expired <br>
-          Expired on: ${expiry.toDateString()}
-        </span>
-      `;
-    }
+      </p>
+    `;
 
   } catch (err) {
     console.error(err);
-    resultBox.innerHTML = "<span class='error'>System Error</span>";
+    resultDiv.innerHTML = "<p>Error checking warranty</p>";
   }
-});
+}
