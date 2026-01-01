@@ -2,19 +2,16 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    match /batteries/{serial} {
+    match /users/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+    }
 
-      // 🔓 Public warranty check (read-only)
+    match /batteries/{serial} {
       allow read: if true;
 
-      // 👑 Admin full access
-      allow create, update, delete: if request.auth != null
-        && request.auth.token.role == "admin";
-
-      // 🧑‍🔧 Dealer can activate only his own battery
       allow update: if request.auth != null
-        && request.auth.token.role == "dealer"
-        && request.resource.data.activatedBy == request.auth.uid;
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "DEALER"
+        && resource.data.status != "ACTIVE";
     }
   }
 }
