@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Warranty Check | Ionvex Energy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+
+<header class="header">
+  <div class="container header-flex">
+    <img src="/assets/images/logo.png" class="logo">
+    <nav>
+      <a href="/">Home</a>
+      <a href="/products.html">Products</a>
+      <a href="/warranty.html" class="active">Warranty</a>
+    </nav>
+  </div>
+</header>
+
+<section class="container warranty-box">
+  <h1>Check Battery Warranty</h1>
+  <p>Enter your battery serial number</p>
+
+  <input type="text" id="serialInput" placeholder="Enter Serial Number">
+  <button onclick="checkWarranty()">Check Warranty</button>
+
+  <div id="result"></div>
+</section>
+
+<footer>
+  <p>© Ionvex Energy</p>
+</footer>
+
+<script src="/js/firebase/app.js"></script>
+<script src="/js/warranty/checkWarranty.js"></script>
+
+</body>
+</html>
