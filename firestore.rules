@@ -2,16 +2,28 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    /* ================= USERS ================= */
     match /users/{uid} {
-      allow read: if request.auth != null && request.auth.uid == uid;
+      // User apna hi profile dekh sakta hai
+      allow read: if request.auth != null
+        && request.auth.uid == uid;
+
+      // Sirf admin user create/update kare
+      allow create, update, delete: if request.auth != null
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
     }
 
+    /* ================= BATTERIES ================= */
     match /batteries/{serial} {
-      allow read: if true;
 
+      // 🔓 Public warranty check (sirf GET)
+      allow get: if true;
+
+      // 👑 Admin full access (Excel upload, edit, delete)
+      allow create, update, delete: if request.auth != null
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+
+      // 🧑‍🔧 Dealer warranty activation (ONLY ONCE)
       allow update: if request.auth != null
-        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "DEALER"
-        && resource.data.status != "ACTIVE";
-    }
-  }
-}
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "dealer"
+        && resource.data.status == "INACTIVE"          // pe
